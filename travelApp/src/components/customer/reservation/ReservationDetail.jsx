@@ -306,7 +306,7 @@ const ReservationDetail = () => {
                                 <ul>
                                   {passenger.Documents.map((doc, docIndex) => {
                                     // Construction de l'URL correcte
-                                    const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+                                    const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
                                     const documentUrl = doc.documentPath.startsWith("http")
                                       ? doc.documentPath
                                       : `${baseUrl}/${doc.documentPath.split('\\').slice(-2).join('/')}`;

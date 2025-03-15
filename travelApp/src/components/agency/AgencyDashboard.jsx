@@ -128,7 +128,7 @@ const AgencyDashboard = () => {
         <h2 className="text-xl font-semibold mb-4">Agency Gallery</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {agencyData.agencyImages.map((image, index) => {
-                const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+                const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
                 const imageUrl = image.url.includes('\\') 
                     ? `${baseUrl}/${image.url.split('\\').slice(-2).join('/')}`
                     : image.url;
