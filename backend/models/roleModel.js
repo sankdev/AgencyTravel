@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const bd = require("../config/bd");
-const Permission = require("./PermissionModel");
-const RolePermission=require('./RolepermissionModel')
+const Permission = require("./permissionModel");
+const RolePermission=require('./rolepermissionModel')
 //const RolePermission = require("./RolePermissionModel");
 
 const Role = bd.define("Role", {
