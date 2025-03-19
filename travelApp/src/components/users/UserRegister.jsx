@@ -7,7 +7,7 @@ import { faUser, faEnvelope, faLock, faCheck, faSpinner } from "@fortawesome/fre
 
 const UserRegister = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ name: "", email: "", password: "", confirmPassword: "", roleId: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", password: "", confirmPassword: "", roleId: "",roleName:" " });
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -34,10 +34,10 @@ const UserRegister = () => {
       setError("Le mot de passe doit contenir au moins 6 caractères");
       return false;
     }
-    if (!formData.roleId) {
-      setError("Veuillez sélectionner un rôle");
-      return false;
-    }
+    // if (!formData.roleId) {
+    //   setError("Veuillez sélectionner un rôle");
+    //   return false;
+    // }
     return true;
   };
 
@@ -53,6 +53,7 @@ const UserRegister = () => {
         email: formData.email,
         password: formData.password,
         roleId: formData.roleId,
+        roleName:formData.roleName
       });
       navigate("/login");
     } catch (err) {
@@ -62,7 +63,22 @@ const UserRegister = () => {
     }
   };
 
-
+//   <div>
+//   <select
+//     name="roleId"
+//     required
+//     className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-400"
+//     value={formData.roleId}
+//     onChange={handleChange}
+//   >
+//     <option value="">Sélectionner un rôle</option>
+//     {roles.filter((r) => ["agency", "customer"].includes(r.name)).map((role) => (
+//       <option key={role.id} value={role.id}>
+//         {role.name.charAt(0).toUpperCase() + role.name.slice(1)}
+//       </option>
+//     ))}
+//   </select>
+// </div>
 
   {/* Nouveau rôle */}
 //   <div className="flex items-center border rounded-lg p-2 bg-gray-100">
@@ -111,7 +127,7 @@ const UserRegister = () => {
           <div>
             <select
               name="roleId"
-              required
+              
               className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-400"
               value={formData.roleId}
               onChange={handleChange}
@@ -124,7 +140,18 @@ const UserRegister = () => {
               ))}
             </select>
           </div>
-
+          <div className="flex items-center border rounded-lg p-2 bg-gray-100">
+          <FontAwesomeIcon icon={faCheck} className="text-gray-500 mr-2" />
+          <input
+            type="text"
+            name="roleName"
+            placeholder="Créer un nouveau rôle"
+            value={formData.roleName || ""}
+            onChange={handleChange}
+            disabled={formData.roleId !== ""}
+            className="bg-transparent flex-1 outline-none"
+          />
+        </div>
           <button
             type="submit"
             disabled={loading}

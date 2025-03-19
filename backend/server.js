@@ -23,7 +23,7 @@ const destination = require('./routes/destinationRoutes');
 const visa = require('./routes/visasRoute');
 const company = require('./routes/companyRoute');
 const campaign = require('./routes/campaignRoute');
-const vol = require('./routes/VolRoute');
+const vol = require('./routes/volRoute');
 const routeClass = require('./routes/routesClass');
 const role = require('./routes/roleRoute');
 const payment = require('./routes/paymentRoutes');
@@ -38,7 +38,7 @@ const agencyClass=require('./routes/agencyAssociationsRoutes')
 const pricinRule=require('./routes/pricingRuleRoute')
 const rolePermission = require('./routes/rolePermissionRoute'); // Import the role permission route
 // Middlewares globaux
-const userAgencyRoute=require('./routes/UserAgencyRoute')
+const userAgencyRoute=require('./routes/userAgencyRoute')
 const AppError = require('./utils/appError');
 
 const globalErrorHandler = require('./controllers/errorController');

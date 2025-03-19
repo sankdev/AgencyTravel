@@ -59,12 +59,19 @@ const UserLogin = ({ onClose }) => {
       setLoading(false);
     }
   };
+  const handleClose = () => {
+    if (onClose) {
+      onClose(); // Si une fonction onClose est fournie, l'appeler
+    }
+    navigate("/"); // Rediriger vers la page d'accueil
+  };
+
 
   return (
     <div className="min-h-small flex flex-col justify-center items-center bg-gradient-to-br from-gray-200 to-gray-300 p-1">
       <div className="bg-white shadow-lg rounded-2xl p-5 max-w-md w-full relative">
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
         >
           <FontAwesomeIcon icon={faTimes} size="lg" />

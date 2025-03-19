@@ -1,4 +1,4 @@
-const RolePermission = require("../models/RolepermissionModel");
+const RolePermission = require("../models/rolepermissionModel");
 
 exports.assignPermission = async (req, res) => {
   const { roleId, permissionId, status } = req.body;

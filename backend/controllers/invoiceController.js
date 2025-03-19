@@ -13,7 +13,7 @@ const  Passenger  = require('../models/Passenger');
 const Agency=require('../models/agenceModel')
 const Destination=require('../models/destinationModel')
 const Class=require('../models/classModel');
-const Company = require('../models/Company');
+const Company = require('../models/company');
 const Vol=require('../models/volModel')
 const NotificationService = require('../services/notification.service');
 const  User  = require('../models/userModel');
@@ -278,7 +278,8 @@ exports.getInvoice = async (req, res) => {
                         { model: Destination, as: 'startDestination' },
                         { model: Destination, as: 'endDestination' },
                         { model: Passenger ,as:'passengers' }, // Inclure les passagers liés à la réservation
-                         { model: Agency,as:'agencyReservations' } // Inclure l'agence liée à la réservation
+                         { model: Agency,as:'agencyReservations' ,include:[{model:FlightAgency,as:'agencyFlights'}]} // Inclure l'agence liée à la réservation,
+                         ,
                     ]
                 },
                 {

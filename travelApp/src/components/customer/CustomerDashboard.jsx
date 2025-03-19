@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { customerService } from '../../services/customerService';
 import { reservationService } from '../../services/reservationService';
 const CustomerDashboard = () => {
-    const [dashboardData, setDashboardData] = useState({
-        profile: null,
-        reservations: [],
-        invoices: []
-    });
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
+    // const [dashboardData, setDashboardData] = useState({
+    //     profile: null,
+    //     reservations: [],
+    //     invoices: []
+    // });
+    // const [loading, setLoading] = useState(true);
+    // const [error, setError] = useState('');
 
     // useEffect(() => {
     //     const fetchDashboardData = async () => {
     //         try {
     //             const [profile, reservations, invoices] = await Promise.all([
     //                 customerService.getCustomerProfile(),
-    //                 // customerService.getCustomerReservations(),
-    //                 // customerService.getCustomerInvoices()
+    //         reservationService.getReservations(),
+    //         customerService.getCustomerInvoices()
     //             ]);
 
     //             setDashboardData({
@@ -34,40 +34,97 @@ const CustomerDashboard = () => {
 
     //     fetchDashboardData();
     // }, []);
-useEffect(() => {
-    const fetchDashboardData = async () => {
-        const results = await Promise.allSettled([
-            customerService.getCustomerProfile(),
-            reservationService.listReservations(),
-            customerService.getCustomerInvoices()
-        ]);
+
+
+    const [dashboardData, setDashboardData] = useState({
+        profile: null,
+        reservations: [],
+        invoices: []
+    });
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+
+    // Utilisation de useRef pour éviter les mises à jour après démontage du composant
+    const isMounted = useRef(true);
+
+    useEffect(() => {
+        isMounted.current = true;
+
+        const fetchDashboardData = async () => {
+            setLoading(true);
+            setError('');
+
+            try {
+                const [profileRes, reservationsRes, invoicesRes] = await Promise.allSettled([
+                    customerService.getCustomerProfile(),
+                    reservationService.getReservations(),
+                    customerService.getCustomerInvoices()
+                ]);
+
+                // Vérifier si le composant est toujours monté avant de modifier l'état
+                if (isMounted.current) {
+                    setDashboardData({
+                        profile: profileRes.status === "fulfilled" ? profileRes.value.data : null,
+                        reservations: reservationsRes.status === "fulfilled" ? reservationsRes.value.data : [],
+                        invoices: invoicesRes.status === "fulfilled" ? invoicesRes.value.data : []
+                    });
+
+                    if (profileRes.status === "rejected") setError(profileRes.reason.message || "Failed to load profile");
+                    if (reservationsRes.status === "rejected") setError(prev => prev + "\n" + (reservationsRes.reason.message || "Failed to load reservations"));
+                    if (invoicesRes.status === "rejected") setError(prev => prev + "\n" + (invoicesRes.reason.message || "Failed to load invoices"));
+                }
+            } catch (err) {
+                if (isMounted.current) {
+                    setError(err.message || "Failed to load dashboard data");
+                }
+            } finally {
+                if (isMounted.current) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        fetchDashboardData();
+
+        return () => {
+            isMounted.current = false; // Évite de mettre à jour l'état après le démontage
+        };
+    }, []);
+    console.log('dashboardCustomer',dashboardData)
+// useEffect(() => {
+//     const fetchDashboardData = async () => {
+//         const results = await Promise.allSettled([
+//             customerService.getCustomerProfile(),
+//             reservationService.getReservations(),
+//             customerService.getCustomerInvoices()
+//         ]);
  
-        const [profileResult, reservationsResult, invoicesResult] = results;
-        console.log('results',results) 
-        // Vérifiez chaque résultat et définissez les données en conséquence
-        if (profileResult.status === 'fulfilled') {
-            setDashboardData(prev => ({ ...prev, profile: profileResult.data }));
-        } else {
-            console.error('Error fetching profile:', profileResult);
-        }
+//         const [profileResult, reservationsResult, invoicesResult] = results;
+//         console.log('results',results) 
+//         // Vérifiez chaque résultat et définissez les données en conséquence
+//         if (profileResult.status === 'fulfilled') {
+//             setDashboardData(prev => ({ ...prev, profile: profileResult.data }));
+//         } else {
+//             console.error('Error fetching profile:', profileResult);
+//         }
 
-        if (reservationsResult.status === 'fulfilled') {
-            setDashboardData(prev => ({ ...prev, reservations: reservationsResult.value.data }));
-        } else {
-            console.error('Error fetching reservations:', reservationsResult.reason);
-        }
+//         if (reservationsResult.status === 'fulfilled') {
+//             setDashboardData(prev => ({ ...prev, reservations: reservationsResult.value.data }));
+//         } else {
+//             console.error('Error fetching reservations:', reservationsResult.reason);
+//         }
 
-        if (invoicesResult.status === 'fulfilled') {
-            setDashboardData(prev => ({ ...prev, invoices: invoicesResult.value.data }));
-        } else {
-            console.error('Error fetching invoices:', invoicesResult.reason);
-        }
+//         if (invoicesResult.status === 'fulfilled') {
+//             setDashboardData(prev => ({ ...prev, invoices: invoicesResult.value.data }));
+//         } else {
+//             console.error('Error fetching invoices:', invoicesResult.reason);
+//         }
 
-        setLoading(false);
-    };
-console.log('dashboardData',dashboardData)
-    fetchDashboardData();
-}, []);
+//         setLoading(false);
+//     };
+// console.log('dashboardData',dashboardData)
+//     fetchDashboardData();
+// }, []);
     // if (loading) {
     //     return (
     //         <div className="flex justify-center items-center h-64">
@@ -222,7 +279,7 @@ console.log('dashboardData',dashboardData)
                                         Status
                                     </th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Due Date
+                                         Date emission
                                     </th>
                                 </tr>
                             </thead>

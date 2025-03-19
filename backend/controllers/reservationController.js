@@ -10,12 +10,12 @@ const NotificationService = require('../services/notification.service');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const Class=require(('../models/classModel'))
-const Document=require('../models/Document')
+const Document=require('../models/document')
 const sequelize=require('../config/bd');
 const Destination = require('../models/destinationModel');
 const AgencyClass=require('../models/agencyClass')
 const AgencyFlights=require('../models/flightAgency');
-const Company = require('../models/Company');
+const Company = require('../models/company.js');
 const PricingRule=require('../models/pricingRule')
 const { Op } = require('sequelize');
 // notification et email create Reservation

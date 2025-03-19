@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const db = require("../config/bd");
 const Agency = require("./agenceModel");
-const Company = require("./Company");
+const Company = require("./company");
 const AgencyVol = require("./flightAgency");
 const AgencyClass = require("./agencyClass");
 

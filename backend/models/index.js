@@ -1,7 +1,7 @@
 const User = require("./userModel");
 const Agency = require("./agenceModel");
 const Destination = require("./destinationModel");
-const Company = require("./Company");
+const Company = require("./company");
 const Vol = require("./volModel");
 const Campaign = require("./compaign");
 const Reservation = require("./booking");
@@ -11,10 +11,10 @@ const PaymentMode = require("./paymentMode");
 const Customer = require("./customer");
 const Passenger = require("./Passenger");
 const UserRole = require("./userRoleModel");
-const Permission = require("./PermissionModel");
+const Permission = require("./permissionModel");
 const Role = require("./roleModel");
 const Image = require("./image");
-const RolePermission=require('./RolepermissionModel')
+const RolePermission=require('./rolepermissionModel')
 const UserAgency=require('./userAgencies')
 // Define associations
 User.hasMany(Reservation, { foreignKey: "userId", as: "reservations" });
@@ -85,8 +85,8 @@ UserRole.belongsTo(Role, { foreignKey: "roleId", as: "role" });
 RolePermission.belongsTo(Permission, { foreignKey: "permissionId", as: "permission" });
 Permission.hasMany(RolePermission, { foreignKey: "permissionId", as: "rolePermissions" });
 // Association entre UserRole et RolePermission
-UserRole.hasMany(RolePermission, { foreignKey: "userRoleId", as: "rolePermissions" });
-RolePermission.belongsTo(UserRole, { foreignKey: "userRoleId", as: "userRole" });
+// UserRole.hasMany(RolePermission, { foreignKey: "userRoleId", as: "rolePermissions" });
+// RolePermission.belongsTo(UserRole, { foreignKey: "userRoleId", as: "userRole" });
 RolePermission.belongsTo(Role, { foreignKey: "roleId", as: "role" });
 Role.hasMany(RolePermission, { foreignKey: "roleId", as: "rolePermissions" });
 Role.belongsToMany(Permission, { through: 'RolePermission' });
