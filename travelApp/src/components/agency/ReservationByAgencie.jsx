@@ -72,7 +72,7 @@ const ReservationsByAgencie = () => {
             setLoading(false);
         }
     };  
-    console.log("listparAgency",reservationsByCustomer)
+    //console.log("listparAgency",reservationsByCustomer)
 
     const fetchVols = async () => {
         try {
@@ -217,14 +217,14 @@ const ReservationsByAgencie = () => {
     });
     
     // Vérification des données filtrées
-    console.log('filteredReservations', filteredReservations);
+    //console.log('filteredReservations', filteredReservations);
     
     
     const filteredReservationsBy = reservationsByCustomer.filter(reservation => {
         if (filter === 'all') return true;
         return reservation.status.toLowerCase() === filter;
     });
-console.log('filteredReservations',filteredReservations)
+//console.log('filteredReservations',filteredReservations)
     const getStatusColor = (status) => {
         switch (status.toLowerCase()) {
             case 'pending':

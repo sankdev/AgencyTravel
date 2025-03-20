@@ -5,10 +5,61 @@ const path = require('path');
 const checkPermission =require('../middleware/servicePermission.js')
 const UserAgency=require('../models/userAgencies.js')
 // Créer une nouvelle agence
+// exports.createAgency = async (req, res) => {
+//   try {
+//     const { name, description, location, status, address, phone1, phone2, phone3, manager, secretary } = req.body;
+//     const logo = req.files && req.files.logo ? req.files.logo[0].path : null;
+
+//     if (!req.user || !req.user.id) {
+//       return res.status(400).json({ message: 'User ID is missing' });
+//     }
+
+//     const newAgency = await Agency.create({
+//       name,
+//       userId: req.user.id,
+//       description,
+//       logo,
+//       location,
+//       status,
+//       address,
+//       phone1,phone2,
+//       manager,
+//       secretary,
+//     });
+// console.log('newAgency',newAgency)
+//     // Gérer les nouvelles images si elles sont fournies
+//     if (req.files) {
+      
+//       const newImages = await Promise.all(
+//         Object.values(req.files).flat().map(async (file) => {
+//           if (!file.path || !file.mimetype) {
+//             throw new Error('File path or mimetype is missing.');
+//           }
+
+//           return await Image.create({
+//             url: file.path, 
+//             type: file.mimetype,
+//             agencyId: newAgency.id,       
+//             createdBy: req.user.id,
+//           });
+//         })
+//       );
+//       newAgency.images = newImages;
+//     }
+
+//     res.status(201).json(newAgency);
+    
+//   } catch (error) {
+//     console.error(error);
+//     res.status(400).json({ error: error.message });
+//   }
+// };
 exports.createAgency = async (req, res) => {
   try {
     const { name, description, location, status, address, phone1, phone2, phone3, manager, secretary } = req.body;
-    const logo = req.files && req.files.logo ? req.files.logo[0].path : null;
+    
+    // Correction : Stocker un chemin relatif
+    const logo = req.files?.logo ? `/uploads/${req.files.logo[0].filename}` : null;
 
     if (!req.user || !req.user.id) {
       return res.status(400).json({ message: 'User ID is missing' });
@@ -18,28 +69,30 @@ exports.createAgency = async (req, res) => {
       name,
       userId: req.user.id,
       description,
-      logo,
+      logo, // Correction ici
       location,
       status,
       address,
-      phone1,phone2,
+      phone1,
+      phone2,
       manager,
       secretary,
     });
-console.log('newAgency',newAgency)
+
+    console.log('newAgency', newAgency);
+
     // Gérer les nouvelles images si elles sont fournies
     if (req.files) {
-      
       const newImages = await Promise.all(
         Object.values(req.files).flat().map(async (file) => {
-          if (!file.path || !file.mimetype) {
+          if (!file.filename || !file.mimetype) {
             throw new Error('File path or mimetype is missing.');
           }
 
           return await Image.create({
-            url: file.path, 
+            url: `/uploads/${file.filename}`, // Correction ici
             type: file.mimetype,
-            agencyId: newAgency.id,       
+            agencyId: newAgency.id,
             createdBy: req.user.id,
           });
         })

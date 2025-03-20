@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/user';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 // Configuration axios avec token
 const axiosWithAuth = () => {
   const token = localStorage.getItem('token');
   return axios.create({
-    baseURL: API_URL,
+    baseURL: `${API_URL}/api/user`,
     headers: {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
@@ -19,7 +19,7 @@ export const userService = {
   getAllUsers: async () => {
     const token = localStorage.getItem('token');
     try {
-      const response = await axios.get(`${API_URL}/`, {
+      const response = await axios.get(`${API_URL}/api/user`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -32,7 +32,7 @@ export const userService = {
   getUserById: async (id) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await axios.get(`${API_URL}/${id}`, {
+      const response = await axios.get(`${API_URL}/api/user/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -44,7 +44,7 @@ export const userService = {
   // Créer un nouvel utilisateur
   register: async (userData) => {
     try {
-      const response = await axios.post(`${API_URL}/register`, userData);
+      const response = await axios.post(`${API_URL}/api/user/register`, userData);
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
@@ -54,7 +54,7 @@ export const userService = {
   // Connexion utilisateur
   login: async (credentials) => {
     try {
-      const response = await axios.post(`${API_URL}/login`, credentials);
+      const response = await axios.post(`${API_URL}/api/user/login`, credentials);
       // Vérifiez si la réponse contient 'user' et 'token'
       if (response.data?.token && response.data?.user) {
         localStorage.setItem('token', response.data.token);
@@ -71,7 +71,7 @@ export const userService = {
   updateUser: async (id, userData) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await axiosWithAuth().put(`${API_URL}/${id}`, userData, {
+      const response = await axiosWithAuth().put(`${API_URL}/api/user/${id}`, userData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -84,7 +84,7 @@ export const userService = {
   deleteUser: async (id) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await axiosWithAuth().delete(`${API_URL}/${id}`, {
+      const response = await axiosWithAuth().delete(`${API_URL}/api/user/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -96,7 +96,7 @@ export const userService = {
   // Demande de réinitialisation de mot de passe
   requestPasswordReset: async (email) => {
     try {
-      const response = await axios.post(`${API_URL}/request-reset`, { email });
+      const response = await axios.post(`${API_URL}/api/user/request-reset`, { email });
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
@@ -106,7 +106,7 @@ export const userService = {
   // Réinitialisation du mot de passe
   resetPassword: async (token, newPassword) => {
     try {
-      const response = await axios.post(`${API_URL}/reset-password/${token}`, { password: newPassword });
+      const response = await axios.post(`${API_URL}/api/user/reset-password/${token}`, { password: newPassword });
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
@@ -117,7 +117,7 @@ export const userService = {
   changePassword: async (oldPassword, newPassword) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await axiosWithAuth().post(`${API_URL}/change-password`, {
+      const response = await axiosWithAuth().post(`${API_URL}/api/user/change-password`, {
         oldPassword,
         newPassword
       }, {

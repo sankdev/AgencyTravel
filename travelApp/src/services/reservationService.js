@@ -1,6 +1,7 @@
 import axios from 'axios';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
-const API_URL = 'http://localhost:5000/api/reservations';
+//const API_URL = 'http://localhost:5000/api/reservations';
 
 const authHeader = () => {
     const token = localStorage.getItem('token');
@@ -13,18 +14,18 @@ export const reservationService = {
             ...authHeader(),
             'Content-Type': 'multipart/form-data',
         };
-        return axios.post(API_URL, reservationData, { headers });
+        return axios.post(`${API_URL}/api/reservations`, reservationData, { headers });
     },
     getReservations: async () => {
-        const response = await axios.get(API_URL, { headers: authHeader() });
+        const response = await axios.get(`${API_URL}/api/reservations`, { headers: authHeader() });
         return response.data;
     },
     listReservations: async () => {
-        const response = await axios.get(`${API_URL}/list`, { headers: authHeader() });
+        const response = await axios.get(`${API_URL}/api/reservations/list`, { headers: authHeader() });
         return response.data;
     },
     getAgencyReservations: async () => {
-        const response = await axios.get(`${API_URL}/agency`, { headers: authHeader() });
+        const response = await axios.get(`${API_URL}/api/reservations/agency`, { headers: authHeader() });
         return response.data;
       },
       // Confirmer une réservation
@@ -34,7 +35,7 @@ export const reservationService = {
       'Content-Type': 'application/json',
     };
     const response = await axios.post(
-      `${API_URL}/confirm`,
+      `${API_URL}/api/reservations/confirm`,
       { reservationId },
       { headers }
     );
@@ -46,21 +47,21 @@ export const reservationService = {
   },
 
     getReservationById: async (id) => {
-        const response = await axios.get(`${API_URL}/${id}`, { headers: authHeader() });
+        const response = await axios.get(`${API_URL}/api/reservations/${id}`, { headers: authHeader() });
         return response.data;
     },
     updateReservation: async (id, reservationData) => {
-        return axios.put(`${API_URL}/${id}`, reservationData, { headers: authHeader() });
+        return axios.put(`${API_URL}/api/reservations/${id}`, reservationData, { headers: authHeader() });
     },
     cancelReservation: async (id) => {
-        return axios.put(`${API_URL}/${id}/cancel`, {}, { headers: authHeader() });
+        return axios.put(`${API_URL}/api/reservations/${id}/cancel`, {}, { headers: authHeader() });
     },
     getReservationsByAgency: async (agencyId) => {
-        const response = await axios.get(`${API_URL}/agency/${agencyId}`, { headers: authHeader() });
+        const response = await axios.get(`${API_URL}/api/reservations/agency/${agencyId}`, { headers: authHeader() });
         return response.data;
     },
     getReservationsByCustomer: async (customerId) => {
-        const response = await axios.get(`${API_URL}/customer/${customerId}`, { headers: authHeader() });
+        const response = await axios.get(`${API_URL}/api/reservations/customer/${customerId}`, { headers: authHeader() });
         return response.data;
     }
 };

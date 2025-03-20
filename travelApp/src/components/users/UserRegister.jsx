@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { roleService } from "../../services/roleService";
 import { userService } from "../../services/userService";
-import axios from "axios";
+
+import { faCheck, faEnvelope, faLock, faSpinner, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faEnvelope, faLock, faCheck, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const UserRegister = () => {
   const navigate = useNavigate();
@@ -15,10 +16,11 @@ const UserRegister = () => {
   useEffect(() => {
     const fetchRoles = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/role");
-        setRoles(response.data);
+        const response = await roleService.getAllRoles();
+        setRoles(response || []); // Ensure roles is always an array
       } catch (err) {
         console.error("Error fetching roles:", err);
+        setRoles([]); // Fallback to an empty array on error
       }
     };
     fetchRoles();
@@ -133,7 +135,7 @@ const UserRegister = () => {
               onChange={handleChange}
             >
               <option value="">Sélectionner un rôle</option>
-              {roles.filter((r) => ["agency", "customer"].includes(r.name)).map((role) => (
+              {roles?.filter((r) => ["agency", "customer"].includes(r.name)).map((role) => (
                 <option key={role.id} value={role.id}>
                   {role.name.charAt(0).toUpperCase() + role.name.slice(1)}
                 </option>

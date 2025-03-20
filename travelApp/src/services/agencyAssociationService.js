@@ -1,6 +1,7 @@
 import axios from 'axios';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
-const API_URL = 'http://localhost:5000/api';
+//const API_URL = 'http://localhost:5000/api';
 
 // const getToken = () => {
 //   // Remplacez ceci par la méthode appropriée pour récupérer le token
@@ -11,7 +12,7 @@ export const agencyAssociationService = {
   createFlightAgency: async (data) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post(`${API_URL}/flight-agencies`, data, {
+      const response = await axios.post(`${API_URL}/api/flight-agencies`, data, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -23,7 +24,7 @@ export const agencyAssociationService = {
   getAllFlightAgencies: async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`${API_URL}/flight-agencies`, {
+      const response = await axios.get(`${API_URL}/api/flight-agencies`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -35,7 +36,7 @@ export const agencyAssociationService = {
   updateFlightAgency: async (id, data) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.put(`${API_URL}/flight-agencies/${id}`, data, {
+      const response = await axios.put(`${API_URL}/api/flight-agencies/${id}`, data, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -47,7 +48,7 @@ export const agencyAssociationService = {
   deleteFlightAgency: async (id) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.delete(`${API_URL}/flight-agencies/${id}`, {
+      const response = await axios.delete(`${API_URL}/api/flight-agencies/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -59,7 +60,7 @@ export const agencyAssociationService = {
   getUserFlightAgencies: async (userId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`${API_URL}/flightUser-agencies`, {
+      const response = await axios.get(`${API_URL}/api/flightUser-agencies`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -71,7 +72,7 @@ export const agencyAssociationService = {
   createClassAgency: async (data) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post(`${API_URL}/class-agencies`, data, {
+      const response = await axios.post(`${API_URL}/api/class-agencies`, data, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -83,7 +84,7 @@ export const agencyAssociationService = {
   getAllClassAgencies: async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`${API_URL}/class-agencies`, {
+      const response = await axios.get(`${API_URL}/api/class-agencies`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -95,7 +96,7 @@ export const agencyAssociationService = {
   updateClassAgency: async (id, data) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.put(`${API_URL}/class-agencies/${id}`, data, {
+      const response = await axios.put(`${API_URL}/api/class-agencies/${id}`, data, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -107,7 +108,7 @@ export const agencyAssociationService = {
   deleteClassAgency: async (id) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.delete(`${API_URL}/class-agencies/${id}`, {
+      const response = await axios.delete(`${API_URL}/api/class-agencies/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -119,7 +120,7 @@ export const agencyAssociationService = {
   getUserClassAgencies: async (userId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`${API_URL}/classUser-agencies`, {
+      const response = await axios.get(`${API_URL}/api/classUser-agencies`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;

@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 const db = require("../config/bd");
-const Document = require("./Document");
+const Document = require("./document");
 
 const Passenger = db.define("Passenger", {
   id: {

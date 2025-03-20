@@ -1,11 +1,12 @@
 import axios from 'axios';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
-const API_URL = 'http://localhost:5000/api/role-permissions';
+//const API_URL = 'http://localhost:5000/api/role-permissions';
 
 const axiosWithAuth = () => {
   const token = localStorage.getItem('token');
   return axios.create({
-    baseURL: API_URL,
+    baseURL: `${API_URL}/api/role-permissions`,
     headers: {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'

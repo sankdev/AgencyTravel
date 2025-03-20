@@ -1,6 +1,6 @@
 const PricingRule = require("../models/pricingRule");
 const Agency = require("../models/agenceModel");
-const Company = require("../models/Company");
+const Company = require("../models/company");
 const AgencyVol = require("../models/flightAgency");
 const AgencyClass = require("../models/agencyClass");
 const  Vol  = require("../models/volModel");

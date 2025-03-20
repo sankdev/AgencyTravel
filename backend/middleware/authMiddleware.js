@@ -2,13 +2,13 @@ const jwt = require("jsonwebtoken");
 
 
 const UserRole = require("../models/userRoleModel");
-const RolePermission=require('../models/RolepermissionModel.js')
+const RolePermission=require('../models/rolepermissionModel.js')
 const Role = require("../models/roleModel");
 const User = require("../models/userModel");
 
 const Customer = require("../models/customer.js"); 
 //const { checkPermission }=require('./servicePermission.js')
-const Permission = require("../models/PermissionModel");
+const Permission = require("../models/permissionModel");
 const UserAgency =require('../models/userAgencies.js')
 require("dotenv").config();
 

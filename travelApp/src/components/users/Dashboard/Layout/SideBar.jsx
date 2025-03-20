@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faUsers, 
@@ -31,6 +31,18 @@ const Sidebar = ({ isMobile, isOpen, toggleSidebar }) => {
     ${isMobile && !isOpen ? '-translate-x-full' : 'translate-x-0'}
     bg-indigo-800 text-white flex flex-col
   `;
+
+
+ const navigate = useNavigate();
+    const user = JSON.parse(localStorage.getItem('user'));
+    
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        navigate('/');
+    };
+
 
   return (
     <>
@@ -75,7 +87,7 @@ const Sidebar = ({ isMobile, isOpen, toggleSidebar }) => {
         <div className="p-4 border-t border-indigo-700">
           <button 
             className="flex items-center w-full px-4 py-2 text-sm text-indigo-100 hover:bg-indigo-700 rounded"
-            onClick={() => console.log('Logout')}
+            onClick={handleLogout}
           >
             <FontAwesomeIcon icon={faSignOutAlt} className="mr-3" />
             Logout

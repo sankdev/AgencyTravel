@@ -5,7 +5,7 @@ const Invoice=require('../models/invoice')
 const Reservation=require('../models/booking')
 
 const Payment=require('../models/payment');
-const  Passenger  = require('../models/Passenger');
+const  Passenger  = require('../models/passenger');
 const Agency=require('../models/agenceModel')
 // Get a specific customer by ID
 // const getCustomerById = async (req, res) => {

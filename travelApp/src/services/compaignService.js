@@ -1,6 +1,6 @@
 import axios from 'axios';
-
-const API_URL = 'http://localhost:5000'; // Base URL for the API
+// import.meta.env.VITE_API_BASE_URL ||
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'; // Base URL for the API
 
 export const compaignService = {
     getCompaigns: async () => {
@@ -82,7 +82,7 @@ export const compaignService = {
     deleteCompaign: async (id) => {
         const token = localStorage.getItem('token');
         try {
-            const response = await axios.delete(`${API_URL}/api/campaign/${id}`, {
+            const response = await axios.delete(`${API_URL}//apicampaign/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             return response.data;

@@ -553,6 +553,24 @@ const FeaturedAgencies = ({ filteredAgencies }) => {
       });
     }
   };
+
+  // {filteredAgencies?.map((agency) => {
+  //   // Vérification et transformation de l'URL de l'image
+  //   const agencyImage = agency.agencyImages?.length > 0 
+  //     ? `${baseUrl}/${agency.agencyImages[0].url.split('\\').slice(-2).join('/')}`
+  //     : "/default-image.jpg"; // Image par défaut
+  
+  //   return (
+  //     <div
+  //       key={agency.id}
+  //       className="snap-center min-w-full sm:min-w-[300px] bg-white rounded-xl shadow-lg overflow-hidden transition-transform transform hover:scale-105"
+  //     >
+  //       <img
+  //         src={agencyImage}
+  //         alt={agency.name}
+  //         className="w-full h-56 object-cover"
+  //       />
+
   const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
   return (
     <section className="py-16 bg-gray-100 relative">
@@ -579,20 +597,23 @@ const FeaturedAgencies = ({ filteredAgencies }) => {
             style={{ scrollBehavior: "smooth", scrollbarWidth: "none" }}
           >
           {filteredAgencies?.map((agency) => {
-            // Vérification et transformation de l'URL de l'image
+            // Vérification et correction du chemin de l'image
             const agencyImage = agency.agencyImages?.length > 0 
-              ? `${baseUrl}/${agency.agencyImages[0].url.split('\\').slice(-2).join('/')}`
-              : "/default-image.jpg"; // Image par défaut
+            ? agency.agencyImages[0].url.includes("\\") // Vérifier si c'est un chemin absolu Windows
+              ? `${baseUrl}/uploads/${agency.agencyImages[0].url.split("\\").pop()}` // Extraire uniquement le fichier et l'ajouter au dossier `uploads`
+              : `${baseUrl}/${agency.agencyImages[0].url.split("/").slice(-2).join("/")}` // Conserver correctement le chemin relatif
+            : "/default-image.jpg"; // Image par défaut
           
             return (
               <div
                 key={agency.id}
-                className="snap-center min-w-full sm:min-w-[300px] bg-white rounded-xl shadow-lg overflow-hidden transition-transform transform hover:scale-105"
+                className="snap-center min-w-full sm:min-w-[300px] bg-white rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-105"
               >
                 <img
                   src={agencyImage}
                   alt={agency.name}
                   className="w-full h-56 object-cover"
+                  onError={(e) => { e.target.src = "/default-image.jpg"; }} // Fallback si l'image ne charge pas
                 />
                 <div className="p-6">
                   <h3 className="text-2xl font-semibold text-gray-900 mb-3">
@@ -665,6 +686,7 @@ const SpecialCampaigns = ({ campaigns }) => {
       });
     }
   };
+  console.log('campaiignImages',campaigns)
 
   return (
     <section className="py-16 bg-gray-100 relative">
@@ -688,11 +710,11 @@ const SpecialCampaigns = ({ campaigns }) => {
             {campaigns?.map((campaign) => {
               // Vérification et formatage du chemin de l'image
               const campaignImage = campaign.images?.length > 0 
-                ? campaign.images[0].url.startsWith("http")
-                  ? campaign.images[0].url
-                  : `${baseUrl}/${campaign?.images[0].url.split('\\').slice(-2).join('/')}`
-                : "/default-image.jpg"; 
-
+              ? campaign.images[0].url.includes("\\") // Si le chemin contient "\" (ancien format Windows)
+                ? `${baseUrl}/uploads/${campaign.images[0].url.split("\\").pop()}` // Extraire uniquement le fichier et l'ajouter au dossier `uploads`
+                : `${baseUrl}/${campaign.images[0].url.split("/").slice(-2).join("/")}` // Conserver correctement le chemin relatif
+              : "/default-image.jpg"; // Image par défaut si aucune image n'est disponible
+            
               return (
                 <div
                   key={campaign.id}

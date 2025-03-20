@@ -1,4 +1,4 @@
-const Passenger = require("../models/Passenger");
+const Passenger = require("../models/passenger");
 const Reservation = require("../models/booking");
 
 const PassengerController = {

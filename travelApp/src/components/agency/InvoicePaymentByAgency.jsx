@@ -26,7 +26,7 @@ const InvoicePayment = () => {
     const fetchInvoiceDetails = async () => {
         try {
             const response = await invoiceService.getInvoiceDetails(invoiceId);
-            console.log('response Invoices',response.data.data)
+            //console.log('response Invoices',response.data.data)
             setInvoice(response.data.data) ;
         } catch (err) {
             setError("Échec du chargement de la facture.");

@@ -1,4 +1,4 @@
-const Company = require("../models/Company");
+const Company = require("../models/company");
 const Image = require('../models/image');
 const { Op } = require('sequelize');
 

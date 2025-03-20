@@ -1,12 +1,13 @@
 import axios from 'axios';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
-const API_URL = 'http://localhost:5000/api';
+//const API_URL = 'http://localhost:5000/api';
 
 export const userAgencyService = {
   assignUserToAgency: async (data) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post(`${API_URL}/userAgency/assign`, data, {
+      const response = await axios.post(`${API_URL}/api/userAgency/assign`, data, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -18,7 +19,7 @@ export const userAgencyService = {
   revokeUserFromAgency: async (data) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post(`${API_URL}/userAgency/revoke`, data, {
+      const response = await axios.post(`${API_URL}/api/userAgency/revoke`, data, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -30,7 +31,7 @@ export const userAgencyService = {
   getUserAgencies: async (userId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`${API_URL}/userAgency/user/${userId}`, {
+      const response = await axios.get(`${API_URL}/api/userAgency/user/${userId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -42,7 +43,7 @@ export const userAgencyService = {
   getAgencyUsers: async (agencyId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`${API_URL}/userAgency/agency/${agencyId}`, {
+      const response = await axios.get(`${API_URL}/api/userAgency/agency/${agencyId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;
@@ -54,7 +55,7 @@ export const userAgencyService = {
   deleteUserAgency: async (userId, agencyId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.delete(`${API_URL}/userAgency/user-agencies/${userId}/${agencyId}`, {
+      const response = await axios.delete(`${API_URL}/api/userAgency/user-agencies/${userId}/${agencyId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       return response.data;

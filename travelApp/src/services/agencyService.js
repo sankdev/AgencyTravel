@@ -1,13 +1,15 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api'; // Removed trailing slash
+ //const API_URL = 'http://localhost:5000/api'; // Removed trailing slash
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+
 
 export const agencyService = {
     getAgencyProfile: async (id) => {
         const token = localStorage.getItem('token');
         const userId=localStorage.getItem('userId')
         try {
-            const response = await axios.get(`${API_URL}/agency/${id}`, {
+            const response = await axios.get(`${API_URL}/api/agency/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             console.log('getProfil',response)
@@ -20,7 +22,7 @@ export const agencyService = {
     updateAgencyProfile: async (data) => {
         const token = localStorage.getItem('token');
         try {
-            const response = await axios.put(`${API_URL}/agency/profile`, data, {
+            const response = await axios.put(`${API_URL}/api/agency/profile`, data, {
                 headers: { 
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
@@ -35,7 +37,7 @@ export const agencyService = {
     getAgencyStats: async () => {
         const token = localStorage.getItem('token');
         try {
-            const response = await axios.get(`${API_URL}/stats`, {
+            const response = await axios.get(`${API_URL}/api/stats`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             return response.data;
@@ -48,7 +50,7 @@ export const agencyService = {
     createAgency: async (data) => {
         const token = localStorage.getItem('token');
         try {
-            const response = await axios.post(`${API_URL}/agency`, data, {
+            const response = await axios.post(`${API_URL}/api/agency`, data, {
                 headers: { 
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
@@ -63,7 +65,7 @@ export const agencyService = {
     getAgencies: async (params) => {
         const token = localStorage.getItem('token');
         try {
-            const response = await axios.get(`${API_URL}/agency`, {
+            const response = await axios.get(`${API_URL}/api/agency`, {
                 params,
                 headers: { Authorization: `Bearer ${token}` }
             });
@@ -77,7 +79,7 @@ export const agencyService = {
         const token = localStorage.getItem('token');
         const userId=localStorage.getItem('userId')
         try {
-            const response = await axios.get(`${API_URL}/agency/userAgency/${userId}`, {
+            const response = await axios.get(`${API_URL}/api/agency/userAgency/${userId}`, {
                 params,
                 headers: { Authorization: `Bearer ${token}` }
             });
@@ -90,7 +92,7 @@ export const agencyService = {
     getAgency: async (id) => {
         const token = localStorage.getItem('token');
         try {
-            const response = await axios.get(`${API_URL}/agency/${id}`, {
+            const response = await axios.get(`${API_URL}/api/agency/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             return response.data;
@@ -102,7 +104,7 @@ export const agencyService = {
     updateAgency: async (id, data) => {
         const token = localStorage.getItem('token');
         try {
-            const response = await axios.put(`${API_URL}/agency/${id}`, data, {
+            const response = await axios.put(`${API_URL}/api/agency/${id}`, data, {
                 headers: { 
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
@@ -117,7 +119,7 @@ export const agencyService = {
     deleteAgency: async (id) => {
         const token = localStorage.getItem('token');
         try {
-            const response = await axios.delete(`${API_URL}/agency/${id}`, {
+            const response = await axios.delete(`${API_URL}/api/agency/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             return response.data;

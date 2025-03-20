@@ -48,27 +48,45 @@ app.use(express.json()); // Pour parser les requêtes JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true })); // Pour form-urlencoded
 // Pour les fichiers
+// app.use(cors({
+//   origin: 'http://localhost:3000',
+//   credentials: true,
+// }));
+const allowedOrigins = [
+  'http://localhost:3000',  // Dev local
+  'https://agencesvoyage.com', // Frontend en production
+];
+
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
+
+
+
 // app.use(helmet({
 //   contentSecurityPolicy: false, // ✅ Désactive temporairement la CSP
 // }));
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin'); // 🔥 Autoriser toutes les origines
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+//   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+//   res.setHeader('Access-Control-Allow-Credentials', 'true');
+//   res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin'); // 🔥 Autoriser toutes les origines
+//   next();
+// });
 
 //app.use(helmet.crossOriginOpenerPolicy({policy:'same-origin'})); // Sécurisation des en-têtes HTTP
 app.use(xss()); // Protection contre les attaques XSS
 app.use(hpp()); // Protection contre les attaques par pollution des paramètres
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
+//app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Logging en développement
 if (process.env.NODE_ENV === 'development') {

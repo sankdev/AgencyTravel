@@ -38,7 +38,7 @@ const GetInvoicesAgency = () => {
      const handleDownloadInvoice = async (invoiceId, reference) => {
              try {
                  const response = await invoiceService.downloadInvoice(invoiceId);
-                 console.log('responseDownload',response)
+                // console.log('responseDownload',response)
                  // Vérifier si la réponse contient des données
                  if (!response.data) {
                      throw new Error("Le fichier est vide ou la requête a échoué.");

@@ -64,13 +64,13 @@ const AgencyDashboard = () => {
             {/* En-tête du tableau de bord */}
             <div className="bg-white shadow rounded-lg p-6 mb-8">
                 <div className="flex items-center space-x-4">
-            {agencyData.logo && <img 
-                src={ `http://localhost:5000${agencyData.logo}` } 
-                alt="Agency Logo"
-                className="h-20 w-20 rounded-full object-cover"
-            />}
-               
-            
+                {agencyData?.logo && (
+                    <img 
+                      src={`http://localhost:5000${agencyData.logo}`} 
+                      alt="Agency Logo"
+                      className="h-20 w-20 rounded-full object-cover"
+                    />
+                  )}
             
             
                     <div>

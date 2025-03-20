@@ -17,7 +17,7 @@ const PaymentsList = () => {
   const fetchPayments = async () => {
     try {
       const response = await paymentService.getPayments(); 
-      console.log('liste payment',response.data)// 🔥 Adapte l'URL selon ton API
+      //console.log('liste payment',response.data)// 🔥 Adapte l'URL selon ton API
       setPayments(response.data);
     } catch (error) {
       console.error("Erreur lors de la récupération des paiements :", error);

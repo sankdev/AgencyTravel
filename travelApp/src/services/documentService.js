@@ -1,6 +1,7 @@
 import axios from 'axios';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
-const API_URL = 'http://localhost:5000/api/documents';
+//const API_URL = 'http://localhost:5000/api/documents';
 
 const authHeader = () => {
     const token = localStorage.getItem('token');
@@ -10,7 +11,7 @@ const authHeader = () => {
 export const documentService = {
     createDocument: async (data) => {
         try {
-            const response = await axios.post(API_URL, data, {
+            const response = await axios.post(`${API_URL}/api/documents`, data, {
                 headers: {
                     ...authHeader(),
                     'Content-Type': 'multipart/form-data',
@@ -24,7 +25,7 @@ export const documentService = {
 
     getDocuments: async (params) => {
         try {
-            const response = await axios.get(`${API_URL}/${params.relatedEntity}/${params.relatedEntityId}`, {
+            const response = await axios.get(`${API_URL}/api/documents/${params.relatedEntity}/${params.relatedEntityId}`, {
                 params,
                 headers: authHeader(),
             });
@@ -36,7 +37,7 @@ export const documentService = {
 
     getDocumentById: async (id, relatedEntity, relatedEntityId) => {
         try {
-            const response = await axios.get(`${API_URL}/${relatedEntity}/${relatedEntityId}/${id}`, {
+            const response = await axios.get(`${API_URL}/api/documents/${relatedEntity}/${relatedEntityId}/${id}`, {
                 headers: authHeader(),
             });
             return response.data;
@@ -47,7 +48,7 @@ export const documentService = {
 
     updateDocument: async (id, data) => {
         try {
-            const response = await axios.put(`${API_URL}/${id}`, data, {
+            const response = await axios.put(`${API_URL}/api/documents/${id}`, data, {
                 headers: authHeader(),
             });
             return response.data;
@@ -58,7 +59,7 @@ export const documentService = {
 
     deleteDocument: async (id) => {
         try {
-            const response = await axios.delete(`${API_URL}/${id}`, {
+            const response = await axios.delete(`${API_URL}/api/documents/${id}`, {
                 headers: authHeader(),
             });
             return response.data;

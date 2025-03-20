@@ -1,6 +1,7 @@
 import axios from 'axios';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
-const API_URL = 'http://localhost:5000/api/customer';
+//const API_URL = 'http://localhost:5000/api/customer';
 
 // Ajouter le token aux headers pour les requêtes authentifiées
 const authHeader = () => {
@@ -11,13 +12,13 @@ const authHeader = () => {
 export const customerService = {
     // Profil
     getCustomerProfile: async () => {
-        return axios.get(`${API_URL}/customers/profile`, { headers: authHeader() });
+        return axios.get(`${API_URL}/api/customer/customers/profile`, { headers: authHeader() });
     },
     getCustomerProfileById: async (id) => {
-        return axios.get(`${API_URL}/customers/profile/${id}`, { headers: authHeader() });
+        return axios.get(`${API_URL}/api/customer/customers/profile/${id}`, { headers: authHeader() });
     },
     getAllCustomersWithoutRestriction:async () => {
-        return axios.get(`${API_URL}/customers/without`, { headers: authHeader() });
+        return axios.get(`${API_URL}/api/customer/customers/without`, { headers: authHeader() });
     },
     updateCustomerProfile :async (profileData) => {
         return axios.put(`${API_URL}/customers/profile`, profileData, {
@@ -30,13 +31,13 @@ export const customerService = {
     createCustomer: async (customerData) => {
         const headers = authHeader();
         delete headers["Content-Type"];
-        return axios.post(`${API_URL}/customers`, customerData, { headers });
+        return axios.post(`${API_URL}/api/customer/customers`, customerData, { headers });
     },
 
     // Réservations 
     
     getCustomerReservations: async () => {
-        return axios.get(`${API_URL}/customers/reservations`, { headers: authHeader() });
+        return axios.get(`${API_URL}/api/customer/customers/reservations`, { headers: authHeader() });
     },
 
     getReservationDetails: async (reservationId) => {
@@ -44,12 +45,12 @@ export const customerService = {
     },
 
     createReservation: async (reservationData) => {
-        return axios.post(`${API_URL}/reservations`, reservationData, { headers: authHeader() });
+        return axios.post(`${API_URL}/api/customer/reservations`, reservationData, { headers: authHeader() });
     },
 
     cancelReservation: async (reservationId) => {
         return axios.put(
-            `${API_URL}/customers/reservations/${reservationId}/cancel`,
+            `${API_URL}/api/customer/customers/reservations/${reservationId}/cancel`,
             {},
             { headers: authHeader() }
         );
@@ -57,15 +58,15 @@ export const customerService = {
 
     // Factures
     getCustomerInvoices: async () => {
-        return axios.get(`${API_URL}/customers/invoices`, { headers: authHeader() });
+        return axios.get(`${API_URL}/api/customer/customers/invoices`, { headers: authHeader() });
     },
 
     getInvoiceDetails: async (invoiceId) => {
-        return axios.get(`${API_URL}/customers/invoices/${invoiceId}`, { headers: authHeader() });
+        return axios.get(`${API_URL}/api/customer/customers/invoices/${invoiceId}`, { headers: authHeader() });
     },
 
     downloadInvoice: async (invoiceId) => {
-        return axios.get(`${API_URL}/customers/invoices/${invoiceId}/download`, {
+        return axios.get(`${API_URL}/api/customer/customers/invoices/${invoiceId}/download`, {
             headers: authHeader(),
             responseType: 'blob'
         });
@@ -74,7 +75,7 @@ export const customerService = {
     // Paiements
     initiatePayment: async (invoiceId, paymentData) => {
         return axios.post(
-            `${API_URL}/customers/invoices/${invoiceId}/pay`,
+            `${API_URL}/api/customer/customers/invoices/${invoiceId}/pay`,
             paymentData,
             { headers: authHeader() }
         );
@@ -82,6 +83,6 @@ export const customerService = {
 
     // Customers
     getAllCustomers: async () => {
-        return axios.get(`${API_URL}/customers/all`, { headers: authHeader() });
+        return axios.get(`${API_URL}/api/customer/customers/all`, { headers: authHeader() });
     }
 };

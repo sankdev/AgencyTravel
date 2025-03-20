@@ -1,11 +1,63 @@
 const Campaign = require("../models/compaign"); 
 const Vol = require("../models/volModel");
 const Image = require("../models/image");
-const Company = require("../models/Company");
+const Company = require("../models/company");
 const Destination = require("../models/destinationModel");
 const  Agency  = require("../models/agenceModel");
 const sequelize=require('../config/bd')
 const { Op } = require("sequelize");
+// exports.createCampaign = async (req, res) => {
+//   const { title, type, description, condition, startAt, endAt, price, status, volId, agencyId } = req.body;
+
+//   if (!agencyId) {
+//     return res.status(400).json({ error: "Agency ID is required" });
+//   }
+
+//   try {
+//     console.log('Request Body:', req.body); // Log request body for debugging
+//     console.log('Agency ID:', agencyId); // Log agencyId for debugging
+//     console.log('Files:', req.files); // Log files for debugging
+//     const campaign = await Campaign.create({
+//       title,
+//       type,
+//       description,
+//       condition,
+//       startAt,
+//       endAt,
+//       price,
+//       status,
+//       volId,
+//       agencyId, // Include agencyId
+//       createdBy: req.user.id, 
+//     });
+
+//     // Handle new images if provided
+//     if (req.files) {
+//       const newImages = await Promise.all(
+//         Object.values(req.files).flat().map(async (file) => {
+//           if (!file.path || !file.mimetype) {
+//             throw new Error('File path or mimetype is missing.');
+//           }
+
+//           return await Image.create({
+//             url: file.path,
+//             type: file.mimetype,
+//             campaignId: campaign.id,
+//             createdBy: req.user.id,
+//           });
+//         })
+//       );
+//       campaign.images = newImages;
+//     }
+
+//     return res.status(201).json({ message: "Campaign created successfully", campaign });
+//   } catch (error) {
+//     console.error('Error creating campaign:', error);
+//     return res.status(500).json({ error: "Failed to create campaign" });
+//   }
+// };
+const path = require("path");
+
 exports.createCampaign = async (req, res) => {
   const { title, type, description, condition, startAt, endAt, price, status, volId, agencyId } = req.body;
 
@@ -14,9 +66,10 @@ exports.createCampaign = async (req, res) => {
   }
 
   try {
-    console.log('Request Body:', req.body); // Log request body for debugging
-    console.log('Agency ID:', agencyId); // Log agencyId for debugging
-    console.log('Files:', req.files); // Log files for debugging
+    console.log("Request Body:", req.body);
+    console.log("Agency ID:", agencyId);
+    console.log("Files:", req.files);
+
     const campaign = await Campaign.create({
       title,
       type,
@@ -27,32 +80,37 @@ exports.createCampaign = async (req, res) => {
       price,
       status,
       volId,
-      agencyId, // Include agencyId
-      createdBy: req.user.id, 
+      agencyId,
+      createdBy: req.user.id,
     });
 
-    // Handle new images if provided
+    // Gérer les nouvelles images si elles sont fournies
     if (req.files) {
       const newImages = await Promise.all(
         Object.values(req.files).flat().map(async (file) => {
           if (!file.path || !file.mimetype) {
-            throw new Error('File path or mimetype is missing.');
+            throw new Error("File path or mimetype is missing.");
           }
 
+          // Extraire uniquement le nom du fichier et créer un chemin relatif
+          const filename = path.basename(file.path);
+          const relativePath = `/uploads/${filename}`;
+
           return await Image.create({
-            url: file.path,
+            url: relativePath, // Stocker le chemin relatif
             type: file.mimetype,
             campaignId: campaign.id,
             createdBy: req.user.id,
           });
         })
       );
+
       campaign.images = newImages;
     }
 
     return res.status(201).json({ message: "Campaign created successfully", campaign });
   } catch (error) {
-    console.error('Error creating campaign:', error);
+    console.error("Error creating campaign:", error);
     return res.status(500).json({ error: "Failed to create campaign" });
   }
 };

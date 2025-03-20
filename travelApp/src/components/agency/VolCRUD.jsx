@@ -40,7 +40,7 @@ const VolCRUD = () => {
     const fetchVols = async () => {
         try {
             const response = await volService.getVolsByAgency();
-            console.log('vol',response)
+           // console.log('vol',response)
             setVols(Array.isArray(response) ? response : []); // Ensure vols is an array
         } catch (err) {
             setError('Failed to fetch vols');
@@ -60,7 +60,7 @@ const VolCRUD = () => {
     const fetchCompanies = async () => {
         try {
             const response = await companyService.getCompanies();
-            console.log('companieList',response)
+           // console.log('companieList',response)
             setCompanies(Array.isArray(response) ? response : []);
         } catch (err) {
             setError('Failed to fetch companies');
@@ -79,13 +79,13 @@ const VolCRUD = () => {
     const fetchAgencies = async () => {
         try {
             const response = await agencyService.getUserAgencies();
-            console.log('agencyUser',response.data)
+            //console.log('agencyUser',response.data)
             setAgencies(Array.isArray(response.data) ? response : []);
         } catch (err) {
             setError('Failed to fetch agencies');
         }
     };
-console.log('agencies',agencies.data)
+//console.log('agencies',agencies.data)
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
