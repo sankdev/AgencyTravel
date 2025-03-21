@@ -71,16 +71,7 @@ app.use(cors({
 
 
 // app.use(helmet({
-//   contentSecurityPolicy: false, // ✅ Désactive temporairement la CSP
-// }));
-// app.use((req, res, next) => {
-//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-//   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-//   res.setHeader('Access-Control-Allow-Credentials', 'true');
-//   res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin'); // 🔥 Autoriser toutes les origines
-//   next();
-// });
+
 
 //app.use(helmet.crossOriginOpenerPolicy({policy:'same-origin'})); // Sécurisation des en-têtes HTTP
 app.use(xss()); // Protection contre les attaques XSS
